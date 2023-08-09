@@ -4,6 +4,19 @@ type Currency = {
   symbol: string
 }
 
+export type Token = {
+  token: string
+}
+
+export type CreateTokenCartResponse = {
+  token: string
+}
+
+export type Category = {
+  id: number
+  name: string
+}
+
 export type Product = {
   id: number
   name: string
@@ -12,6 +25,11 @@ export type Product = {
   price: number
   discountPrice?: number
   currency: Currency
+  categories: Category[]
+}
+
+export type CategoryTreeResponse = {
+  data: Category[]
 }
 
 type AllProductsResponseData = {

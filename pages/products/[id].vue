@@ -1,5 +1,6 @@
 <template>
   <v-container class="pa-md-16">
+    <category-tree v-if="hasCategory" :items="items" />
     <div class="product-card d-sm-flex">
       <v-img :src="data.img" height="500" width="400" max-width="450" max-height="500" class="border">
         <template v-slot:placeholder>
@@ -24,7 +25,6 @@
           </div>
           <span class="ml-3 d-flex align-center">100 in stock</span>
         </div>
-
         <div class="product-actions">
           <v-btn variant="flat" size="large" color="teal" rounded>Buy now</v-btn>
           <v-btn variant="outlined" size="large" color="teal" rounded>Add to cart</v-btn>
@@ -35,10 +35,21 @@
 </template>
 
 <script setup lang="ts">
-import { ProductResponse } from '../../types'
+import { Product, Category } from '../../types'
 
 const route = useRoute()
-const { data } = await useAPI<ProductResponse>(`products/${route.params.id}`)
+const { data } = await useAPI<Product>(`products/${route.params.id}`)
+let items: any
+let hasCategory = false
+
+if (data.value && data.value.categories[0] !== undefined) {
+  const { data: tree } = await useAPI<Category[]>(`categories/${data.value.categories[0].id}/tree`)
+    
+  items = tree
+
+  hasCategory = true
+}
+
 </script>
 
 <style scoped lang="scss">
