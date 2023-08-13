@@ -2,7 +2,7 @@
   <v-container class="pa-md-16">
     <category-tree v-if="hasCategory" :items="items" />
     <div class="product-card d-sm-flex">
-      <v-img :src="data.img" height="500" width="400" max-width="450" max-height="500" class="border">
+      <v-img :src="data?.img" height="500" width="400" max-width="450" max-height="500" class="border">
         <template v-slot:placeholder>
           <div class="d-flex align-center justify-center fill-height bg-grey">
             <v-progress-circular indeterminate color="grey-lighten-4"></v-progress-circular>
@@ -10,20 +10,20 @@
         </template>
       </v-img>
       <div>
-        <h1>{{ data.name }}</h1>
-        <h3>{{ data.price }} {{ data.currency.symbol }}</h3>
+        <h1>{{ data?.name }}</h1>
+        <h3>{{ data?.price }} {{ data?.currency.symbol }}</h3>
         <span>
-          {{  data.desc  }}
+          {{  data?.desc  }}
         </span>
         <div class="d-flex">
           <div class="product-quantity-picker-container bg-grey-lighten-3 mt-3 mb-3">
             <div class="product-quantity-picker">
-              <v-btn icon="mdi-minus" variant="plain" />
-              <span class="text-h6">1</span>
-              <v-btn icon="mdi-plus" variant="plain" />
+              <v-btn icon="mdi-minus" variant="plain" :disabled="productQuantity === 1" @click="changeProductQuantity(false)" />
+              <span class="text-h6">{{ productQuantity }}</span>
+              <v-btn icon="mdi-plus" variant="plain" :disabled="productQuantity === data?.quantity" @click="changeProductQuantity(true)" />
             </div>
           </div>
-          <span class="ml-3 d-flex align-center">100 in stock</span>
+          <span class="ml-3 d-flex align-center">{{ data?.quantity }} in stock</span>
         </div>
         <div class="product-actions">
           <v-btn variant="flat" size="large" color="teal" rounded>Buy now</v-btn>
@@ -41,13 +41,22 @@ const route = useRoute()
 const { data } = await useAPI<Product>(`products/${route.params.id}`)
 let items: any
 let hasCategory = false
+let productQuantity = ref(1)
 
 if (data.value && data.value.categories[0] !== undefined) {
   const { data: tree } = await useAPI<Category[]>(`categories/${data.value.categories[0].id}/tree`)
-    
+
   items = tree
 
   hasCategory = true
+}
+
+function changeProductQuantity(add: boolean) {
+  if ((productQuantity.value < data.value?.quantity) && add) {
+    productQuantity.value += 1
+  } 
+
+  if (productQuantity.value !== 1 && !add) productQuantity.value -= 1
 }
 
 </script>

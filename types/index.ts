@@ -23,6 +23,7 @@ export type Product = {
   desc?: string
   img?: string
   price: number
+  quantity: number
   discountPrice?: number
   currency: Currency
   categories: Category[]

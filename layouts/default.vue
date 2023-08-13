@@ -9,7 +9,9 @@
           <v-btn variant="text" v-bind="props" color="teal">Categories</v-btn>
         </template>
         <v-list>
-          <v-list-item><v-list-item-title>This is a test</v-list-item-title></v-list-item>
+          <v-list-item v-for="(item, index) in categories" :key="index">
+            <v-list-item-title>{{ item.name }}</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
       <v-spacer />
@@ -26,5 +28,10 @@
   </v-app>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { Category } from 'types'
+
+const { data } = await useAPI<Category[]>(`categories`)
+
+const categories = ref(data)
 </script>
