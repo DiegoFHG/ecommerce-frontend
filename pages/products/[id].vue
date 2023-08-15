@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-md-16">
+  <div class="page-container">
     <category-tree v-if="hasCategory" :items="items" />
     <div class="product-card d-sm-flex">
       <v-img :src="data?.img" height="500" width="400" max-width="450" max-height="500" class="border">
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">

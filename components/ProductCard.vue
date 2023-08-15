@@ -1,5 +1,5 @@
 <template>
-  <v-card width="350" v-ripple class="product-card">
+  <v-card v-ripple class="product-card">
     <div>
       <v-img :src="img ? img : ''" max-height="200" height="200">
         <template v-slot:placeholder>
@@ -36,5 +36,17 @@ defineProps<{
 <style scoped lang="scss">
 .product-card {
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 350px;
+  }
+
+  @media (min-width: 600px) and (max-width: 960px) {
+    width: 300px;
+  }
+
+  @media (min-width: 960px) {
+    width: 350px;
+  }
 }
 </style>

@@ -12,6 +12,11 @@ export type CreateTokenCartResponse = {
   token: string
 }
 
+export type CartTokenResponse = {
+  products: Product[]
+  token: string
+}
+
 export type Category = {
   id: number
   name: string
@@ -33,7 +38,7 @@ export type CategoryTreeResponse = {
   data: Category[]
 }
 
-type AllProductsResponseData = {
+export type AllProductsResponseData = {
   products: Product[]
 }
 
