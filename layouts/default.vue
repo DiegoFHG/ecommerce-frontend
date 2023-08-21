@@ -15,7 +15,7 @@
         </v-list>
       </v-menu>
       <v-spacer />
-      <v-btn icon color="teal" @click="openCartDialog()">
+      <v-btn icon color="teal" @click="openCartDialog()" :disabled="route.path === '/checkout'">
         <v-icon>mdi-cart</v-icon>
       </v-btn>
       <v-btn icon color="teal">
@@ -35,7 +35,16 @@
         </v-toolbar>
         <CartItemList :items="cartItems" />
         <div class="pr-5 pl-5">
-          <v-btn size="x-large" variant="flat" block color="teal">Order</v-btn>
+          <v-btn
+            size="x-large"
+            variant="flat"
+            block 
+            color="teal"
+            :disabled="cartItems === undefined || cartItems.length === 0"
+            @click="goToCheckout()"
+          >
+            Order
+          </v-btn>
         </div>
       </v-card>
     </v-dialog>
@@ -45,7 +54,7 @@
         <CartItemList :items="cartItems" />
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="screenDialog = false" color="teal">Order</v-btn>
+          <v-btn @click="goToCheckout()" color="teal" :disabled="cartItems.length === 0">Order</v-btn>
           <v-btn @click="screenDialog = false" color="teal">Close</v-btn>
         </v-card-actions>
       </v-card>
@@ -54,13 +63,16 @@
 </template>
 
 <script setup lang="ts">
+import { cartStore } from '@/stores/cart'
+import { storeToRefs } from 'pinia'
 import { CartTokenResponse, Category } from 'types'
 
+const store = cartStore()
+const route = useRoute()
 const { data } = await useAPI<Category[]>(`categories`)
 const categories = ref(data)
 const fullScreenDialog = ref(false)
 const screenDialog = ref(false)
-const cartItems = ref()
 
 const cartToken = useCookie('ct')
 cartToken.value = cartToken.value || undefined
@@ -68,10 +80,12 @@ cartToken.value = cartToken.value || undefined
 if (cartToken.value !== undefined) {
   const { data: cart } = await useAPI<CartTokenResponse>(`carts/${cartToken.value}`)
 
-  if (cart) {
-    cartItems.value = cart.value?.products
+  if (cart.value) {
+    store.setCart(cart.value)
   }
 }
+
+const { products: cartItems } = storeToRefs(store)
 
 async function goToCategoryPage(id: number) {
   await navigateTo(`/categories/${id}`)
@@ -85,6 +99,13 @@ function openCartDialog() {
   } else {
     screenDialog.value = true
   }
+}
+
+function goToCheckout() {
+  fullScreenDialog.value = false
+  screenDialog.value = false
+
+  navigateTo('/checkout')
 }
 </script>
 

@@ -49,3 +49,13 @@ export type ProductResponse = {
 export type AllProductsResponse = {
   data: AllProductsResponseData
 }
+
+export type ShippingType = {
+  id: string
+  name: string
+}
+
+export type PaymentType = {
+  id: string
+  name: string
+}

@@ -1,28 +1,31 @@
 <template>
-  <div class="list-container">
-    <div v-for="item in list" class="list-item">
-      <div>
-        <v-img :src="item.img" max-height="100" height="100" width="100" max-width="100">
-          <template v-slot:placeholder>
-            <div class="d-flex align-center justify-center fill-height bg-grey"></div>
-          </template>
-        </v-img>
+  <div class="list-container" v-if="list !== undefined && list.length > 0">
+    <template v-for="(item, index) in list">
+      <div class="list-item">
+        <div>
+          <v-img :src="item.img" max-height="100" height="100" width="100" max-width="100">
+            <template v-slot:placeholder>
+              <div class="d-flex align-center justify-center fill-height bg-grey"></div>
+            </template>
+          </v-img>
+        </div>
+        <div class="list-item-description">
+          <b>{{ item.name }}</b>
+          <span><b>Price unit: </b>{{ item.price.toFixed(2) }} {{ item.currency.symbol }}</span>
+          <span><b>Quantity: </b>{{ item.quantity }}</span>
+        </div>
       </div>
-      <div class="list-item-description">
-        <b>{{ item.name }}</b>
-        <span><b>Price unit: </b>{{ item.price.toFixed(2) }} {{ item.currency.symbol }}</span>
-        <span><b>Quantity: </b>{{ item.quantity }}</span>
-      </div>
-      <v-spacer />
-      <div class="list-item-subtotal">
-        <span><b>Subtotal: </b>{{ (((item.price * item.quantity) * 100) / 100).toFixed(2) }} {{ item.currency.symbol }}</span>
-      </div>
-    </div>
+      <v-divider class="mb-3 mt-3" v-if="(index + 1) !== list.length" thickness="2"></v-divider>
+    </template>
     <div class="cart-total">
-      <span><b>Total: </b>{{ totalPrice.toFixed(2) }} {{ items[0].currency.symbol }}</span>
+      <span><b>Subtotal: </b>{{ totalPrice.toFixed(2) }} {{ items[0].currency.symbol }}</span>
     </div>
   </div>
+  <div v-if="list === undefined || list.length === 0" class="no-items-container">
+    <h3 class="font-weight-medium">You don't have products in your shopping cart.</h3>
+  </div>
 </template>
+
 <script setup lang="ts">
 import { Product } from 'types'
 
@@ -41,6 +44,12 @@ const totalPrice = computed(() => {
 </script>
 
 <style scoped lang="scss">
+.no-items-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
 .list-container {
   display: flex;
   flex-direction: column;
