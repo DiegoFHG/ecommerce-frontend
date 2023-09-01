@@ -14,7 +14,7 @@ const cartToken = useCookie('ct')
 cartToken.value = cartToken.value || undefined
 
 if (cartToken.value === undefined) {
-  const { data } = await useAPI<CreateTokenCartResponse>('carts', { method: 'POST', pick: ['token'] })
+  const { data } = await useAPI<CreateTokenCartResponse>('carts/', { method: 'POST' })
 
   await $fetch("/api/set-cart-cookie", { method: 'POST', body: {
     key: data.value?.token

@@ -15,7 +15,7 @@ defineProps<{
   products: Product[]
 }>()
 
-const { data: products } = await useAPI('products')
+const { data: products } = await useAPI('products/')
 const dataProducts = products
 
 </script>

@@ -51,11 +51,11 @@ export type AllProductsResponse = {
 }
 
 export type ShippingType = {
-  id: string
+  id: number
   name: string
 }
 
 export type PaymentType = {
-  id: string
+  id: number
   name: string
 }

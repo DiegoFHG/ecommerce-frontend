@@ -69,7 +69,7 @@ import { CartTokenResponse, Category } from 'types'
 
 const store = cartStore()
 const route = useRoute()
-const { data } = await useAPI<Category[]>(`categories`)
+const { data } = await useAPI<Category[]>(`categories/`)
 const categories = ref(data)
 const fullScreenDialog = ref(false)
 const screenDialog = ref(false)
