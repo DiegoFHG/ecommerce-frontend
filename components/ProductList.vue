@@ -16,7 +16,7 @@
     </div>
     <v-divider class="mb-3 mt-3" v-if="(index + 1) !== list.length" thickness="2"></v-divider>
   </template>
-  <div class="cart-total">
+  <div class="cart-total" v-show="!hideSubtotal">
     <span><b>Subtotal: </b>{{ totalPrice.toFixed(2) }} {{ items[0].currency.symbol }}</span>
   </div>
 </template>
@@ -26,11 +26,13 @@ import { Product } from 'types'
 
 interface Props {
   items: Product[],
-  showItemPrice: boolean
+  showItemPrice: boolean,
+  hideSubtotal: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  showItemPrice: true
+  showItemPrice: true,
+  hideSubtotal: false
 })
 
 const list = ref(props.items)
