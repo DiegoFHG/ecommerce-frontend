@@ -10,7 +10,7 @@
       </div>
       <div class="list-item-description">
         <b>{{ item.name }}</b>
-        <span><b>Price unit: </b>{{ item.price.toFixed(2) }} {{ item.currency.symbol }}</span>
+        <span v-show="props.showItemPrice"><b>Price unit: </b>{{ item.price.toFixed(2) }} {{ item.currency.symbol }}</span>
         <span><b>Quantity: </b>{{ item.quantity }}</span>
       </div>
     </div>
@@ -24,9 +24,14 @@
 <script setup lang="ts">
 import { Product } from 'types'
 
-const props = defineProps<{
-  items: Product[]
-}>()
+interface Props {
+  items: Product[],
+  showItemPrice: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  showItemPrice: true
+})
 
 const list = ref(props.items)
 const totalPrice = computed(() => {

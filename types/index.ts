@@ -22,6 +22,32 @@ export type Category = {
   name: string
 }
 
+type OrderDetails = {
+  line: string
+  city: string
+  division: string
+  country: string
+  postal_code: string
+  recipient_email: string
+  recipient_name: string
+  recipient_phone_number: string
+  total: number
+  currency: Currency
+}
+
+type OrderStatus = {
+  id: number
+  name: string
+}
+
+export type Order = {
+  id: number
+  token: string
+  status: OrderStatus
+  products: Product[]
+  details: OrderDetails
+}
+
 export type Product = {
   id: number
   name: string
