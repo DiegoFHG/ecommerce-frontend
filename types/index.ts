@@ -15,6 +15,7 @@ export type CreateTokenCartResponse = {
 export type CartTokenResponse = {
   products: Product[]
   token: string
+  id: number
 }
 
 export type Category = {
