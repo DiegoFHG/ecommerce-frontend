@@ -13,6 +13,9 @@ export const cartStore = defineStore("cart", {
       this.token = cart.token
       this.products = cart.products
       this.cartId = cart.id
+    },
+    clearCart() {
+      this.products = <Product[]>[]
     }
   },
   getters: {

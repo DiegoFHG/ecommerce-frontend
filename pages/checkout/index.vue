@@ -15,7 +15,7 @@
           <form>
             <div class=checkout-form-address>
               <v-text-field label="Address line 1" required :model-value="state.line" 
-                @change="state.line = $event.targe.value" @blur="v$.line.$touch" :error-messages="v$.line.$errors.map(e => e.$message)" />
+                @change="state.line = $event.target.value" @blur="v$.line.$touch" :error-messages="v$.line.$errors.map(e => e.$message)" />
               <v-text-field label="Address line 2" :model-value="state.line_2" @blur="v$.line_2.$touch"
                 @change="state.line_2 = $event.target.value" :error-messages="v$.line_2.$errors.map(e => e.$message)" />
               <v-text-field label="Zip/Postal code" required :model-value="state.postal_code" 
@@ -137,9 +137,13 @@ async function submitOrder() {
     } })
 
     if (status.value === 'success') {
+      store.clearCart()
+      
       navigateTo(`/orders/${order.value?.id}`)
     }
   }
+
+  submittingOrder.value = false
 }
 </script>
 
